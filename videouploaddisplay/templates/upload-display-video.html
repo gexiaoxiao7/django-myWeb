@@ -1,0 +1,117 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Django - Video File Upload and Display</title>
+        <!-- 必须的 meta 标签 -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    </head>
+    <style>
+        .alert-primary{
+        position: absolute;
+        width: 20%;
+        text-align: center;
+        left: 50%;
+        top: 20px;
+        z-index: 10;
+        transform: translate(-50%);
+    }
+    </style>
+    <body>
+    {% if scMessage %}
+        <div class="alert alert-primary" role="alert" id="successMsg">
+            {{ scMessage }}
+        </div>
+    {% endif %}
+    {% if filename %}
+        <div class="alert alert-primary" role="alert" id="successMsg">
+            上传成功
+        </div>
+    {% endif %}
+    <!-- Image and text -->
+        <nav class="navbar navbar-light bg-light">
+          <a class="navbar-brand" href="#">
+            <img src="../static/logo.jpg" width="50" height="50" class="d-inline-block align-top" alt="">
+            舞蹈打分系统
+          </a>
+        </nav>
+        <div class="card">
+      <div class="card-header">
+        请在这里上传示例视频(请命名为model.mp4)
+      </div>
+      <div class="card-body">
+        <fieldset name="Video File Upload and Display">
+				{% if msg %} {% autoescape off %} {{ msg }} {% endautoescape %} {% endif %}
+				<form method="post" action="/" enctype="multipart/form-data">
+					{% csrf_token %}
+					<dl>
+						<p>&nbsp;
+							<input type="file" name="file" autocomplete="off" required>
+						</p>
+					</dl>
+					<p>
+						<input type="submit" value="上传" class="btn btn-primary">
+					</p>
+				</form>
+			</fieldset>
+      </div>
+    </div>
+    <div class="card" >
+  <div class="card-header">
+    请在这里上传测试视频(请命名为test.mp4)
+  </div>
+  <div class="card-body">
+    <fieldset name="Video File Upload and Display">
+				{% if msg %} {% autoescape off %} {{ msg }} {% endautoescape %} {% endif %}
+				<form method="post" action="/" enctype="multipart/form-data">
+					{% csrf_token %}
+					<dl>
+						<p>
+							<input type="file" name="file" autocomplete="off" required>
+						</p>
+					</dl>
+					<p>
+						<input type="submit" value="上传" class="btn btn-primary">
+					</p>
+				</form>
+			</fieldset>
+  </div>
+</div>
+    <div class="row">
+  <div class="col-sm-6">
+    <div class="card text-center">
+      <div class="card-body">
+        <h5 class="card-title">务必先上传文件！</h5>
+        <p class="card-text">可能需要花费一些时间</p>
+        <button onclick="window.location.href='{% url 'doCheck' %}'" class="btn btn-primary">开始评分</button>
+      </div>
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="card text-center">
+      <div class="card-body">
+          {% if result %}
+              <h5 class="card-title"> 匹配分数为{{ result }}</h5>
+          {% else %}
+              <h5 class="card-title"> 快来查看结果吧！</h5>
+            <p class="card-text">请等待评分之后再查看结果</p>
+          {% endif %}
+        <button onclick="window.location.href='{% url 'doResult' %}'" class="btn btn-primary">查看结果</button>
+      </div>
+    </div>
+  </div>
+</div>
+    <div class="jumbotron jumbotron-fluid">
+  <div class="container">
+    <h1 class="display-4">By Marshall Ge</h1>
+    <p class="lead">This is a simple dance scoring system.</p>
+  </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.min.js" integrity="sha384-Lge2E2XotzMiwH69/MXB72yLpwyENMiOKX8zS8Qo7LDCvaBIWGL+GlRQEKIpYR04" crossorigin="anonymous"></script>
+    <script src="{% static 'js/index.js'%}"></script>
+    </body>
+</html>
